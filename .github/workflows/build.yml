@@ -1,0 +1,21 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup Go environment
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21.0'
+    - name: Build
+      run: make
+    - name: Upload build
+      uses: actions/upload-artifact@v3
+      with:
+        name: go-generate-fast
+        path: bin/go-generate-fast
+        retention-days: 7

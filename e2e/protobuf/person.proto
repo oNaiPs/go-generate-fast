@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "testdata/person";
+
+import "address.proto";
+
+message Person {
+  string name = 1;
+  int32 age = 2;
+  string email = 3;
+  Address address = 4;
+}

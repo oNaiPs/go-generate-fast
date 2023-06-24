@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "testdata/address";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string postal_code = 4;
+}

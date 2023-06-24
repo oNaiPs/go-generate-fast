@@ -1,0 +1,32 @@
+schema:
+  - graph/*.graphqls
+exec:
+  layout: follow-schema
+  dir: graph/generated
+  package: generated
+model:
+  filename: graph/model/models_gen.go
+  package: model
+resolver:
+  layout: follow-schema
+  dir: graph/generated
+  package: generated
+  filename_template: "{name}.resolvers.go"
+autobind:
+ - "github.com/oNaiPs/go-generate-fast/e2e/gqlgen/graph/model"
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  Todo:
+    fields:
+      user:
+        resolver: true
