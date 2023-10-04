@@ -36,7 +36,7 @@ func Init() {
 	}
 	userConfigDir = path.Join(userConfigDir, "go-generate-fast")
 
-	viper.SetEnvPrefix("GO_GENERATE_CACHE")
+	viper.SetEnvPrefix("GO_GENERATE_FAST")
 	viper.AutomaticEnv()
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
