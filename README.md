@@ -86,19 +86,19 @@ more input files change, the command reruns and stores the output files in the
 
 Various environment variables are available for configuration:
 
-- `GO_GENERATE_CACHE_DIR`: Sets the base directory for configurations and
+- `GO_GENERATE_FAST_DIR`: Sets the base directory for configurations and
   caching. Default locations differ by OS:
    - Linux: `$HOME/.config/go-generate-fast`
    - Darwin: `$HOME/Library/Application Support/go-generate-fast`
    - Windows: `%AppData%\go-generate-fast`
 
-- `GO_GENERATE_CACHE_CACHE_DIR`: Defines the cache files location. Default is
-  `$GO_GENERATE_CACHE_DIR/cache/`.
-- `GO_GENERATE_CACHE_DEBUG`: Enables debugging logs.
-- `GO_GENERATE_CACHE_DISABLE`: Completely ignores caching.
-- `GO_GENERATE_CACHE_READ_ONLY`: Uses the existing cache but prevents any new
+- `GO_GENERATE_FAST_CACHE_DIR`: Defines the cache files location. Default is
+  `$GO_GENERATE_FAST_DIR/cache/`.
+- `GO_GENERATE_FAST_DEBUG`: Enables debugging logs.
+- `GO_GENERATE_FAST_DISABLE`: Completely ignores caching.
+- `GO_GENERATE_FAST_READ_ONLY`: Uses the existing cache but prevents any new
   cache entries.
-- `GO_GENERATE_CACHE_RECACHE`: Sets the cache to overwrite existing entries. The
+- `GO_GENERATE_FAST_RECACHE`: Sets the cache to overwrite existing entries. The
   new results will be cached.
 
 ## How it Works
