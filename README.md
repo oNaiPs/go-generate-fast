@@ -1,8 +1,8 @@
 # go-generate-fast
 
-[![build](https://github.com/oNaips/go-generate-fast/workflows/build/badge.svg)](https://github.com/oNaips/go-generate-fast/actions?query=branch%main)
+[![build](https://github.com/oNaiPs/go-generate-fast/actions/workflows/build.yml/badge.svg)](https://github.com/oNaiPs/go-generate-fast/actions?query=branch%main)
 [![Go Report
-Card](https://goreportcard.com/badge/github.com/oNaips/go-generate-fast)](https://goreportcard.com/report/github.com/oNaips/go-generate-fast)
+Card](https://goreportcard.com/badge/github.com/oNaiPs/go-generate-fast)](https://goreportcard.com/report/github.com/oNaiPs/go-generate-fast)
 
 🚀 Shave off minutes and turn them into seconds for your go generation step 🚀.
 
