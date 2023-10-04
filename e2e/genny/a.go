@@ -4,7 +4,7 @@ import (
 	"github.com/cheekybits/genny/generic"
 )
 
-//go:generate genny -in=$GOFILE -out=gen-$GOFILE -pkg=genny gen "Generic=BUILTINS"
+//go:generate genny -in=a.go -out=gen-a.go -pkg=genny gen "Generic=BUILTINS"
 
 type Generic generic.Type
 
