@@ -3,8 +3,7 @@ before:
     - go mod tidy
 
 builds:
-  - main: ./src/cmd/main/main.go
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - linux
