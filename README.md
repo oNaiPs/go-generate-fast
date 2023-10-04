@@ -29,7 +29,7 @@ significant speed boost by harnessing smart caching mechanisms.
 ## Install
 
 ```bash
-go get github.com/oNaiPs/go-generate-fast
+go install github.com/oNaiPs/go-generate-fast
 ```
 
 ## Usage
