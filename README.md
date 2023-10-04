@@ -13,6 +13,8 @@ Smart enough to understand if your generated files have changed or not,
 `go-generate-fast` can circumvent running unaltered scripts, offering a
 significant speed boost by harnessing smart caching mechanisms.
 
+https://github.com/oNaiPs/go-generate-fast/assets/374130/396a0160-90f8-46d0-a05c-783d127a384e
+
 ## Features
 
 - **Effortless Integration**: Seamlessly integrate it with your workflow through
