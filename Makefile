@@ -3,7 +3,6 @@ GO := go
 SRC_DIR := src
 OUT_DIR := bin
 TARGET := $(OUT_DIR)/go-generate-fast
-MAIN_SOURCE := $(SRC_DIR)/cmd/main/main.go
 
 # List of all Go source files
 SOURCES := $(shell find $(SRC_DIR) -name "*.go")
@@ -25,7 +24,7 @@ build: $(TARGET) ## Build project
 $(TARGET): $(SOURCES)
 	mkdir -p $(OUT_DIR)
 	echo "Building..."
-	$(GO) build -o $(TARGET) --tags=$(BUILD_TAGS) $(MAIN_SOURCE)
+	$(GO) build -o $(TARGET) --tags=$(BUILD_TAGS)
 	echo "Build complete. Output: $(TARGET)"
 
 test: ## Run tests
