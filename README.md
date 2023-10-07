@@ -13,7 +13,7 @@ Smart enough to understand if your generated files have changed or not,
 `go-generate-fast` can circumvent running unaltered scripts, offering a
 significant speed boost by harnessing smart caching mechanisms.
 
-https://github.com/oNaiPs/go-generate-fast/assets/374130/396a0160-90f8-46d0-a05c-783d127a384e
+<https://github.com/oNaiPs/go-generate-fast/assets/374130/396a0160-90f8-46d0-a05c-783d127a384e>
 
 ## Features
 
@@ -40,6 +40,7 @@ Replace the traditional `go generate` command with `go-generate-fast` in your
 scripts to leverage its benefits.
 
 Typical command invocation is as follows:
+
 ```bash
 go-generate-fast [file.go... | packages]
 ```
@@ -61,7 +62,17 @@ following tools:
   code.
 - [genny](https://github.com/cheekybits/genny): Elegant generics for Go.
 
-### Adding Additional Input/Output Files
+Above commands can be called in binary form, or with go run. E.g.:
+
+```go
+//go:generate stringer
+
+OR
+
+//go:generate go run golang.org/x/tools/cmd/stringer[@latest]
+```
+
+### Custom Input/Output Files
 
 If you are using a custom or currently unsupported script/tool, you can manually
 add files as demonstrated below:
@@ -88,9 +99,9 @@ Various environment variables are available for configuration:
 
 - `GO_GENERATE_FAST_DIR`: Sets the base directory for configurations and
   caching. Default locations differ by OS:
-   - Linux: `$HOME/.config/go-generate-fast`
-   - Darwin: `$HOME/Library/Application Support/go-generate-fast`
-   - Windows: `%AppData%\go-generate-fast`
+  - Linux: `$HOME/.config/go-generate-fast`
+  - Darwin: `$HOME/Library/Application Support/go-generate-fast`
+  - Windows: `%AppData%\go-generate-fast`
 
 - `GO_GENERATE_FAST_CACHE_DIR`: Defines the cache files location. Default is
   `$GO_GENERATE_FAST_DIR/cache/`.
