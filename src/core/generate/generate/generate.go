@@ -279,6 +279,7 @@ func (g *Generator) run() (ok bool) {
 			} else {
 				runSave = false
 				cachedInfo = append(cachedInfo, "error")
+				base.SetExitStatus(1)
 			}
 		}
 
