@@ -11,5 +11,7 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: '1.21.0'
+    - name: Install go dependencies
+      run: make install-deps
     - name: Test
       run: make test

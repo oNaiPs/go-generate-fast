@@ -1,6 +1,6 @@
 # go-generate-fast
 
-[![build](https://github.com/oNaiPs/go-generate-fast/actions/workflows/build.yml/badge.svg)](https://github.com/oNaiPs/go-generate-fast/actions?query=branch%main)
+[![build](https://github.com/oNaiPs/go-generate-fast/actions/workflows/build-test.yml/badge.svg)](https://github.com/oNaiPs/go-generate-fast/actions?query=branch%main)
 [![Go Report
 Card](https://goreportcard.com/badge/github.com/oNaiPs/go-generate-fast)](https://goreportcard.com/report/github.com/oNaiPs/go-generate-fast)
 
