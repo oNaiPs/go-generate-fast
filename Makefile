@@ -42,8 +42,7 @@ lint-fix: ## Lints files, and fixes ones that are fixable
 
 e2e: $(if $(CI),,build) ## Runs e2e tests
 	echo "Running e2e tests..."
-	cd e2e/
-	$(TARGET)
+	e2e/run.sh
 
 clean: ## Cleans build files
 	rm -rfv $(OUT_DIR)

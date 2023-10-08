@@ -23,8 +23,6 @@ jobs:
 
     - name: Test e2e
       run: make e2e
-    - name: Test e2e (cached)
-      run: make e2e
 
     - name: Upload build
       uses: actions/upload-artifact@v3
