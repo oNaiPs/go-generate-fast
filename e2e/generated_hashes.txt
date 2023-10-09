@@ -1,3 +1,4 @@
+102 42dcf71179e23b112de0a76f610c563e *custom/a.moved.go
 4762 03432f47ba5948d71bbdc83573d843aa *esc/static.go
 12690 292ec370e175a885610da9a79821d6d2 *genny/gen-a.go
 6717 ccab3d231701a1aec563075185aa8ba5 *go-bindata/static.go
