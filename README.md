@@ -109,6 +109,7 @@ Various environment variables are available for configuration:
 - `GO_GENERATE_FAST_DISABLE`: Completely ignores caching.
 - `GO_GENERATE_FAST_READ_ONLY`: Uses the existing cache but prevents any new
   cache entries.
+- `GO_GENERATE_FAST_FORCE_USE_CACHE`: Forceably uses cache. If it does not exist, the command fails.
 - `GO_GENERATE_FAST_RECACHE`: Sets the cache to overwrite existing entries. The
   new results will be cached.
 

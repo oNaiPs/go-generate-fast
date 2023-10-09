@@ -9,12 +9,13 @@ import (
 )
 
 type Config struct {
-	ConfigDir string
-	CacheDir  string
-	Disable   bool
-	ReadOnly  bool
-	ReCache   bool
-	Debug     bool
+	ConfigDir     string
+	CacheDir      string
+	Disable       bool
+	ReadOnly      bool
+	ReCache       bool
+	ForceUseCache bool
+	Debug         bool
 }
 
 var instance *Config
@@ -60,6 +61,7 @@ func Init() {
 	instance.Disable = viper.GetBool("disable")
 	instance.ReadOnly = viper.GetBool("read_only")
 	instance.ReCache = viper.GetBool("recache")
+	instance.ForceUseCache = viper.GetBool("force_use_cache")
 	instance.Debug = viper.GetBool("debug")
 }
 

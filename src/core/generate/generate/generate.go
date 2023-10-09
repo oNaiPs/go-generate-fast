@@ -274,16 +274,24 @@ func (g *Generator) run() (ok bool) {
 		}
 
 		if runGenerate {
-			if g.exec(opts) {
-				cachedInfo = append(cachedInfo, "generated")
-			} else {
-				runSave = false
-				cachedInfo = append(cachedInfo, "error")
+			if config.Get().ForceUseCache {
+				cachedInfo = append(cachedInfo, "force_use_cache")
 				base.SetExitStatus(1)
+			} else {
+				if g.exec(opts) {
+					cachedInfo = append(cachedInfo, "generated")
+				} else {
+					runSave = false
+					cachedInfo = append(cachedInfo, "error")
+					base.SetExitStatus(1)
+				}
 			}
 		}
 
-		if runSave && cacheResult.CanSave && !config.Get().ReadOnly {
+		if runSave &&
+			cacheResult.CanSave &&
+			!config.Get().ReadOnly &&
+			!config.Get().ForceUseCache {
 			err := cache.Save(cacheResult)
 			if err != nil {
 				zap.S().Errorf("cannot save cache: %s", err)
