@@ -183,6 +183,11 @@ func Restore(result VerifyResult) error {
 			continue
 		}
 
+		err = os.MkdirAll(path.Dir(dstFile.Path), 0755)
+		if err != nil {
+			return fmt.Errorf("cannot create destination directory: %w", err)
+		}
+
 		hash, err := copy.CopyHashFile(srcFile, dstFile.Path)
 		if err != nil {
 			return fmt.Errorf("cannot copy file from cache: %w", err)
