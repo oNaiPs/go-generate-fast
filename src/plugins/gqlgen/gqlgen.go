@@ -74,9 +74,14 @@ func (p *GqlgenPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugi
 
 	// TODO cache will remove manually added resolver code from these files
 	if cfg.Resolver.IsDefined() {
+		if cfg.Resolver.FilenameTemplate == "" {
+			cfg.Resolver.FilenameTemplate = "{name}.resolvers.go"
+		}
+
 		if cfg.Resolver.Layout == config.LayoutSingleFile {
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Resolver.Filename)
 		} else if cfg.Resolver.Layout == config.LayoutFollowSchema {
+			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Resolver.Filename)
 			for _, schemaFile := range cfg.SchemaFilename {
 				ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Resolver.DirName, filename(schemaFile, cfg.Resolver.FilenameTemplate)))
 			}
@@ -90,7 +95,15 @@ func (p *GqlgenPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugi
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Exec.Filename)
 		} else if cfg.Exec.Layout == config.ExecLayoutFollowSchema {
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Exec.DirName, "root_.generated.go"))
-			for _, schemaFile := range cfg.SchemaFilename {
+
+			// re-compute schema files since there might be some pre-bundled ones (usually prelude.graphql)
+			schemaFiles, err := getOutputSchemaFilenames(cfg)
+			if err != nil {
+				zap.S().Errorf("failed getting filenames: %s", err)
+				return nil
+			}
+
+			for _, schemaFile := range schemaFiles {
 				ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Exec.DirName, filename(schemaFile, cfg.Exec.FilenameTemplate)))
 			}
 		} else {
@@ -168,6 +181,32 @@ func getConfig(configFile string) (*config.Config, string, error) {
 		}
 		return cfg, cfgFile, err
 	}
+}
+
+func getOutputSchemaFilenames(cfg *config.Config) ([]string, error) {
+	schemaFiles := make(map[string]bool)
+	if cfg.Schema == nil {
+		return []string{}, fmt.Errorf("schema is nil")
+	}
+
+	if cfg.Schema.Query != nil {
+		schemaFiles[cfg.Schema.Query.Position.Src.Name] = true
+	}
+	if cfg.Schema.Mutation != nil {
+		schemaFiles[cfg.Schema.Mutation.Position.Src.Name] = true
+	}
+	if cfg.Schema.Subscription != nil {
+		schemaFiles[cfg.Schema.Subscription.Position.Src.Name] = true
+	}
+	for _, def := range cfg.Schema.Types {
+		schemaFiles[def.Position.Src.Name] = true
+	}
+
+	result := []string{}
+	for file := range schemaFiles {
+		result = append(result, file)
+	}
+	return result, nil
 }
 
 func init() {
