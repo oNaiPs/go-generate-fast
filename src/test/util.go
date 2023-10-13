@@ -11,7 +11,7 @@ import (
 func WriteTempFile(t *testing.T, content string) *os.File {
 	t.Helper()
 
-	tmpFile, err := os.CreateTemp("", "go-generate-fast-test-")
+	tmpFile, err := os.CreateTemp(t.TempDir(), "go-generate-fast-test-")
 	if err != nil {
 		t.Fatalf("Failed to create temporary file: %s", err)
 	}

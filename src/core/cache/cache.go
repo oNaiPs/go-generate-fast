@@ -61,7 +61,7 @@ func Verify(opts plugins.GenerateOpts) (VerifyResult, error) {
 		ioFiles.InputFiles = append(ioFiles.InputFiles, matches...)
 	}
 
-	ioFiles.OutputPatterns = opts.ExtraOutputPatterns
+	ioFiles.OutputPatterns = append(ioFiles.OutputPatterns, opts.ExtraOutputPatterns...)
 
 	str.RemoveDuplicatesAndSort(&ioFiles.InputFiles)
 	str.RemoveDuplicatesAndSort(&ioFiles.OutputFiles)
@@ -101,7 +101,7 @@ func Verify(opts plugins.GenerateOpts) (VerifyResult, error) {
 func Save(result VerifyResult) error {
 	outputFiles := result.IoFiles.OutputFiles
 	for _, globPattern := range result.IoFiles.OutputPatterns {
-		matches, err := doublestar.FilepathGlob(globPattern)
+		matches, err := doublestar.FilepathGlob(globPattern, doublestar.WithFilesOnly())
 		if err != nil {
 			zap.S().Error("cannot extra output files: ", err)
 			continue

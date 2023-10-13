@@ -83,12 +83,17 @@ func newVerifyResult(t *testing.T) VerifyResult {
 	file1 := util_test.WriteTempFile(t, "some-content")
 	file2 := util_test.WriteTempFile(t, "some-other-content")
 
+	tempDir := t.TempDir()
+	err := os.WriteFile(path.Join(tempDir, "test1.txt"), []byte("test"), 0755)
+	assert.NoError(t, err)
+
 	return VerifyResult{
 		CacheHit:    false,
 		CacheHitDir: t.TempDir(),
 		IoFiles: plugins.InputOutputFiles{
-			InputFiles:  []string{},
-			OutputFiles: []string{file1.Name(), file2.Name()},
+			InputFiles:     []string{},
+			OutputFiles:    []string{file1.Name(), file2.Name()},
+			OutputPatterns: []string{tempDir + "/**.txt"},
 		},
 	}
 }
@@ -103,6 +108,8 @@ func TestSave(t *testing.T) {
 	assert.NoError(t, err)
 
 	assert.Equal(t, 2, len(verifyRes.IoFiles.OutputFiles))
+	//cache shall also have the found file with the glob
+	assert.Equal(t, 3, len(cacheConfig.OutputFiles))
 
 	for index, outputFile := range verifyRes.IoFiles.OutputFiles {
 		hash, err := hash.HashFile(outputFile)
