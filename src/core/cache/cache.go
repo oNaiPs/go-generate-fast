@@ -120,7 +120,6 @@ func Save(result VerifyResult) error {
 	tmpFile := path.Join(result.CacheHitDir, "file.swp")
 
 	for _, file := range outputFiles {
-
 		if err != nil {
 			return fmt.Errorf("cannot create temp dir: %w", err)
 		}

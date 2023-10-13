@@ -1,3 +1,5 @@
+231 eec887e12d54e3d0ff1a00b4dd68a311 *controller-gen/out/crd/base/_.yaml
+1807 878aeba90c0c8247846d4019119ee0a1 *controller-gen/out/zz_generated.deepcopy.go
 102 42dcf71179e23b112de0a76f610c563e *custom/a.moved.go
 4762 03432f47ba5948d71bbdc83573d843aa *esc/static.go
 12690 292ec370e175a885610da9a79821d6d2 *genny/gen-a.go

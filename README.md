@@ -62,6 +62,7 @@ following tools:
 - [go-bindata](https://github.com/go-bindata/go-bindata): Turn data file into go
   code.
 - [genny](https://github.com/cheekybits/genny): Elegant generics for Go.
+- [controller-gen](https://book.kubebuilder.io/reference/controller-gen) Generates utility code and Kubernetes YAML.
 
 Above commands can be called in binary form, or with go run. E.g.:
 
