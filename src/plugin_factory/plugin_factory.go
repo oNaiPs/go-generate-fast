@@ -1,6 +1,7 @@
 package plugin_factory
 
 import (
+	_ "github.com/oNaiPs/go-generate-fast/src/plugins/controller-gen"
 	_ "github.com/oNaiPs/go-generate-fast/src/plugins/esc"
 	_ "github.com/oNaiPs/go-generate-fast/src/plugins/genny"
 	_ "github.com/oNaiPs/go-generate-fast/src/plugins/go-bindata"

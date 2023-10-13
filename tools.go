@@ -12,4 +12,5 @@ import (
 	_ "go.uber.org/mock/mockgen"
 	_ "golang.org/x/tools/cmd/stringer"
 	_ "gotest.tools/gotestsum"
+	_ "sigs.k8s.io/controller-tools/cmd/controller-gen"
 )
