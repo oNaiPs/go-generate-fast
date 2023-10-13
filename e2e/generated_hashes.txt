@@ -12,6 +12,7 @@
 237 f0c4b165baa306042455028d7badad99 *gqlgen/graph/model/models_gen.go
 1208 38c7e8eba5087fa9e0b1a38d723869ac *mockgen/a.mock.go
 1269 f5217ea75d9d28aaf4ac4bc65cb8d2ad *mockgen/b.mock.go
+2647 a180d391bef1807af3b457dddd0885a3 *moq/a_moq_test.go
 4117 6bfc15a24e5ca32e58de5171563cf1ac *protobuf/testdata/example/gender.pb.go
 5266 4a0784ead1d20bf1778973d202f9238b *protobuf/testdata/person/person.pb.go
 572 42e0312c59e136c58ec934981c5ce7f5 *stringer/a_string.go

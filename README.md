@@ -57,6 +57,7 @@ following tools:
 - [gqlgen](https://gqlgen.com/): Go code generation for GraphQL APIs
 - [mockgen](https://github.com/uber-go/mock): Mock class generation for
   interfaces
+- [moq](https://github.com/matryer/moq): Interface mocking tool for go generate
 - [esc](https://github.com/mjibson/esc): Embedding static files in Go binaries
 - [go-bindata](https://github.com/go-bindata/go-bindata): Turn data file into go
   code.
