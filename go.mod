@@ -9,6 +9,7 @@ require (
 	github.com/go-bindata/go-bindata v3.1.2+incompatible
 	github.com/golangci/golangci-lint v1.54.2
 	github.com/jessevdk/go-flags v1.5.0
+	github.com/matryer/moq v0.2.7
 	github.com/mjibson/esc v0.2.0
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.4
