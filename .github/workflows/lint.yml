@@ -15,5 +15,5 @@ jobs:
       - name: Set up Nix
         uses: cachix/install-nix-action@v27
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+      - name: Run golangci-lint
+        run: make lint

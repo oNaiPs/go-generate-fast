@@ -7,11 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Setup Go environment
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21.0'
+
+    - name: Set up Nix
+      uses: cachix/install-nix-action@v27
+
     - name: Install go dependencies
       run: make install-deps
+
     - name: Test
       run: make test
