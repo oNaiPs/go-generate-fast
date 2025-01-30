@@ -11,6 +11,8 @@ jobs:
     - name: Set up Nix
       uses: cachix/install-nix-action@v27
 
+    - uses: rrbutani/use-nix-shell-action@v1
+
     - name: Install go dependencies
       run: make install-deps
 
