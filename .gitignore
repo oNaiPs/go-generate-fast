@@ -11,3 +11,4 @@ dist/
 .direnv/
 .claude/
 CLAUDE.md
+.idea/
