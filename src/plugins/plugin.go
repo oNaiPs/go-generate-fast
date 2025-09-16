@@ -12,9 +12,13 @@ type GenerateOpts struct {
 	Path string
 	// all the words being passed on the generate macro
 	Words []string
-	// name of the executable being run. if it is a go package, it will be the name of the cmd tool
+	// name of the executable being run.
+	// if it is a go package, it will be the name of the cmd tool
+	// if it is a go tool, it will be the name of the tool
 	ExecutableName string
-	// full path of the command being run. if it is a go package, this path will be an empty string
+	// full path of the command being run.
+	// if it is a go package, this path will be an empty string
+	// if it is a go tool, this path will be the full path to the tool binary
 	ExecutablePath string
 	// when this command is a "go run [pkg]" command, the name of the package being run
 	GoPackage string
