@@ -226,7 +226,8 @@ func (g *Generator) run() (ok bool) {
 			opts.ExecutablePath = words[0]
 		}
 
-		if !maybeParseGoRunCommand(&opts) {
+		// Normalize `go tool <exe>` first, then `go run <pkg>`; otherwise fall back to raw words.
+		if !maybeParseGoToolCommand(&opts) && !maybeParseGoRunCommand(&opts) {
 			opts.ExecutableName = filepath.Base(words[0])
 			opts.SanitizedArgs = words[1:]
 		}
@@ -480,6 +481,20 @@ func (g *Generator) exec(opts plugins.GenerateOpts) bool {
 		zap.S().Errorf("running %q: %s", opts.Command(), err)
 		return false
 	}
+	return true
+}
+
+func maybeParseGoToolCommand(opts *plugins.GenerateOpts) bool {
+	// Expect: go tool <name> [args...]
+	if len(opts.Words) < 3 {
+		return false
+	}
+	if opts.Words[0] != "go" || opts.Words[1] != "tool" {
+		return false
+	}
+	// Keep full logical identity for the executable name.
+	opts.ExecutableName = filepath.Base(opts.Words[2])
+	opts.SanitizedArgs = opts.Words[3:]
 	return true
 }
 

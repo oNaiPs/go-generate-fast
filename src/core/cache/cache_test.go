@@ -206,3 +206,10 @@ func TestExecutableFileInfo(t *testing.T) {
 	_, err = getExecutableDetails("bad_file")
 	assert.ErrorContains(t, err, "executable file not found in $PATH")
 }
+
+
+func TestExecutableFileInfoGoTool(t *testing.T) {
+	info, err := getExecutableDetails("go tool compile")
+	assert.NoError(t, err)
+	assert.NotEmpty(t, info)
+}
