@@ -11,7 +11,6 @@
             # Core Go tooling
             go
             gopls
-            gotools
 
             # Linting and testing
             golangci-lint

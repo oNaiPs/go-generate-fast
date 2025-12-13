@@ -1,6 +1,6 @@
 package gogenerateng
 
-//go:generate stringer -type A -trimprefix A
+//go:generate go run golang.org/x/tools/cmd/stringer -type A -trimprefix A
 type A int
 
 const (
