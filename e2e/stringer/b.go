@@ -1,6 +1,6 @@
 package gogenerateng
 
-//go:generate stringer -type B -output stringer_out.go
+//go:generate go run golang.org/x/tools/cmd/stringer -type B -output stringer_out.go
 type B int
 
 const (
