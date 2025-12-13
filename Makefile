@@ -35,10 +35,12 @@ test: ## Run tests
 
 lint: ## Lints files
 	echo "Linting..."
-	golangci-lint run
-lint-fix: ## Lints files, and fixes ones that are fixable 
+	cd $(SRC_DIR) && golangci-lint run ./...
+	golangci-lint run main.go
+lint-fix: ## Lints files, and fixes ones that are fixable
 	echo "Linting and fixing..."
-	golangci-lint run --fix
+	cd $(SRC_DIR) && golangci-lint run --fix ./...
+	golangci-lint run --fix main.go
 
 e2e: $(if $(CI),,build) ## Runs e2e tests
 	echo "Running e2e tests..."
