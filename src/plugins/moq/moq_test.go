@@ -3,6 +3,7 @@ package plugin_moq
 import (
 	"os"
 	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/oNaiPs/go-generate-fast/src/plugins"
@@ -26,7 +27,11 @@ func TestMoqPlugin_ComputeInputOutputFiles(t *testing.T) {
 	p := &MoqPlugin{}
 	tempDir := t.TempDir()
 
-	err := os.WriteFile(path.Join(tempDir, "go.mod"), []byte("module example.com/mod"), 0644)
+	// Resolve symlinks (on macOS /var -> /private/var)
+	tempDir, err := filepath.EvalSymlinks(tempDir)
+	require.NoError(t, err)
+
+	err = os.WriteFile(path.Join(tempDir, "go.mod"), []byte("module example.com/mod"), 0644)
 	assert.NoError(t, err)
 	err = os.WriteFile(path.Join(tempDir, "input_file1.go"), []byte(`
 package example
