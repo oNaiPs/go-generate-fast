@@ -35,11 +35,18 @@ func TestMatches(t *testing.T) {
 func TestComputeInputOutputFiles(t *testing.T) {
 	tempDir := t.TempDir()
 	configFile := path.Join(tempDir, "gqlgen.yml")
-	err := os.WriteFile(configFile, []byte("---"), 0666)
+	configContent := `schema:
+  - schema.graphql
+exec:
+  filename: generated.go
+model:
+  filename: models_gen.go
+`
+	err := os.WriteFile(configFile, []byte(configContent), 0666)
 	assert.NoError(t, err)
 
 	schemaFile := path.Join(tempDir, "schema.graphql")
-	err = os.WriteFile(schemaFile, []byte("type Test {text: String!}"), 0666)
+	err = os.WriteFile(schemaFile, []byte("type Query {text: String!}"), 0666)
 	assert.NoError(t, err)
 
 	err = os.Chdir(tempDir)
