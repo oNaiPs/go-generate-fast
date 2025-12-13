@@ -6,12 +6,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup Go environment
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21.0'
+    - uses: actions/checkout@v4
+
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
+
+    - name: Setup Nix cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
+
     - name: Install go dependencies
-      run: make install-deps
+      run: nix develop --command make install-deps
+
     - name: Test
-      run: make test
+      run: nix develop --command make test

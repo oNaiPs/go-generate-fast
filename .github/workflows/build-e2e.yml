@@ -6,26 +6,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Setup Go environment
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.21.0'
+    - name: Install Nix
+      uses: DeterminateSystems/nix-installer-action@main
 
-    - name: Install dependencies
-      run: sudo apt update && sudo apt install -y protoc-gen-go
+    - name: Setup Nix cache
+      uses: DeterminateSystems/magic-nix-cache-action@main
+
     - name: Install go dependencies
-      run: make install-deps
+      run: nix develop --command make install-deps
 
     - name: Build
-      run: make build
+      run: nix develop --command make build
 
     - name: Test e2e
-      run: make e2e
+      run: nix develop --command make e2e
 
     - name: Upload build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: go-generate-fast
         path: bin/go-generate-fast
