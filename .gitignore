@@ -9,3 +9,5 @@ go.work
 bin/
 dist/
 .direnv/
+.claude/
+CLAUDE.md

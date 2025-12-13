@@ -12,13 +12,13 @@ compare_hashes() {
   files=$(git ls-files . -o --ignored --exclude-standard)
   for file in ${files}; do
     hash=$(openssl dgst -r -md5 "${file}")
-    if [[ "${OSTYPE}" == "linux-gnu"* ]]; then
-      size=$(stat -c"%s" "${file}")
-    elif [[ "${OSTYPE}" == "darwin"* ]]; then
-      size=$(stat -f"%z" "${file}")
+    # Detect stat version (GNU vs BSD)
+    if stat --version &>/dev/null; then
+      # GNU stat (Linux or from coreutils)
+      size=$(stat -c "%s" "${file}")
     else
-      echo "Cannot compute file size: Unknown OS"
-      exit 1
+      # BSD stat (macOS)
+      size=$(stat -f "%z" "${file}")
     fi
 
     echo "${size} ${hash}" >> "${computed_hashes_file}"
