@@ -13,13 +13,13 @@ func CopyFile(srcName, destName string) error {
 	if err != nil {
 		return err
 	}
-	defer srcFile.Close()
+	defer func() { _ = srcFile.Close() }()
 
 	destFile, err := os.Create(destName)
 	if err != nil {
 		return err
 	}
-	defer destFile.Close()
+	defer func() { _ = destFile.Close() }()
 
 	_, err = io.Copy(destFile, srcFile)
 	if err != nil {
@@ -34,13 +34,13 @@ func CopyHashFile(srcName, destName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer srcFile.Close()
+	defer func() { _ = srcFile.Close() }()
 
 	destFile, err := os.Create(destName)
 	if err != nil {
 		return "", err
 	}
-	defer destFile.Close()
+	defer func() { _ = destFile.Close() }()
 
 	h, err := blake2b.New256(nil)
 	if err != nil {

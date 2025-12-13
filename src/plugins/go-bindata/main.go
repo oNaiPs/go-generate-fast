@@ -132,7 +132,7 @@ func findFiles(dir, prefix string, recursive bool, toc *[]bindata.Asset, ignore 
 			return err
 		}
 
-		defer fd.Close()
+		defer func() { _ = fd.Close() }()
 
 		list, err = fd.Readdir(0)
 		if err != nil {

@@ -78,22 +78,24 @@ func (p *GqlgenPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugi
 			cfg.Resolver.FilenameTemplate = "{name}.resolvers.go"
 		}
 
-		if cfg.Resolver.Layout == config.LayoutSingleFile {
+		switch cfg.Resolver.Layout {
+		case config.LayoutSingleFile:
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Resolver.Filename)
-		} else if cfg.Resolver.Layout == config.LayoutFollowSchema {
+		case config.LayoutFollowSchema:
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Resolver.Filename)
 			for _, schemaFile := range cfg.SchemaFilename {
 				ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Resolver.DirName, filename(schemaFile, cfg.Resolver.FilenameTemplate)))
 			}
-		} else {
+		default:
 			zap.S().Error("unknown config resolver layout: ", cfg.Resolver.Layout)
 		}
 	}
 
 	if cfg.Exec.IsDefined() {
-		if cfg.Exec.Layout == config.ExecLayoutSingleFile {
+		switch cfg.Exec.Layout {
+		case config.ExecLayoutSingleFile:
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, cfg.Exec.Filename)
-		} else if cfg.Exec.Layout == config.ExecLayoutFollowSchema {
+		case config.ExecLayoutFollowSchema:
 			ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Exec.DirName, "root_.generated.go"))
 
 			// re-compute schema files since there might be some pre-bundled ones (usually prelude.graphql)
@@ -106,7 +108,7 @@ func (p *GqlgenPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugi
 			for _, schemaFile := range schemaFiles {
 				ioFiles.OutputFiles = append(ioFiles.OutputFiles, path.Join(cfg.Exec.DirName, filename(schemaFile, cfg.Exec.FilenameTemplate)))
 			}
-		} else {
+		default:
 			zap.S().Error("unknown config exec layout", cfg.Exec.Layout)
 		}
 	}

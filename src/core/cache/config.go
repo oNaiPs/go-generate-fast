@@ -27,7 +27,7 @@ func SaveConfig(config CacheConfig, cacheHitDir string) error {
 	if err != nil {
 		return fmt.Errorf("cannot create cache config file: %w", err)
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	jsonData, err := json.Marshal(config)
 	if err != nil {

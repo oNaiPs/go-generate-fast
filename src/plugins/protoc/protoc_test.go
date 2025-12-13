@@ -40,7 +40,7 @@ func TestProtocSearchFile(t *testing.T) {
 	// Test with a temporary file in the second include directory
 	tmpfile, err := os.Create(filepath.Join(tempDir, "temp.proto"))
 	assert.NoError(t, err)
-	defer os.Remove(tmpfile.Name())
+	defer func() { _ = os.Remove(tmpfile.Name()) }()
 
 	filePath = "temp.proto"
 	assert.Equal(t, tmpfile.Name(), searchFile(filePath, includeDirs, baseDir))
@@ -50,7 +50,7 @@ func TestProtocParseProtoFile(t *testing.T) {
 	// Create a temporary file with example content
 	tmpfile, err := os.CreateTemp("", "example.proto")
 	require.Nil(t, err)
-	defer os.Remove(tmpfile.Name())
+	defer func() { _ = os.Remove(tmpfile.Name()) }()
 
 	exampleContent := `syntax = "proto3";
 package example;
@@ -236,7 +236,7 @@ func TestProtocComputeInputOutputFiles(t *testing.T) {
 				require.Nil(t, err)
 				err = os.WriteFile(protoPath, []byte(protoFile.Content), 0644)
 				require.Nil(t, err)
-				defer os.Remove(protoPath)
+				defer func() { _ = os.Remove(protoPath) }()
 			}
 
 			err := os.Chdir(tc.opts.Dir())

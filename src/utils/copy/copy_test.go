@@ -29,8 +29,8 @@ func TestCopyFile(t *testing.T) {
 
 	assert.Falsef(t, string(dat) != string(content), "copyFile() failed: content mismatch: got %v, wanted %v", string(dat), string(content))
 
-	os.Remove("testfile.tmp")
-	os.Remove(tmpfile.Name())
+	_ = os.Remove("testfile.tmp")
+	_ = os.Remove(tmpfile.Name())
 }
 
 func TestCopyHashFile(t *testing.T) {
@@ -57,6 +57,6 @@ func TestCopyHashFile(t *testing.T) {
 
 	assert.Falsef(t, string(dat) != string(content), "copyFile() failed: content mismatch: got %v, wanted %v", string(dat), string(content))
 
-	os.Remove("testfile.tmp")
-	os.Remove(tmpfile.Name())
+	_ = os.Remove("testfile.tmp")
+	_ = os.Remove(tmpfile.Name())
 }

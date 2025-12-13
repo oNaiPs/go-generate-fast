@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nix build:*)",
+      "Bash(go mod tidy:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(nix flake update:*)",
+      "Bash(nix flake check:*)",
+      "Bash(go version:*)",
+      "Bash(golangci-lint version:*)",
+      "Bash(make:*)",
+      "Bash(go get:*)",
+      "Bash(./bin/go-generate-fast:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

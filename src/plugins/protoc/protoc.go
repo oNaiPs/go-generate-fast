@@ -153,7 +153,7 @@ func parseProtoFile(filePath string) (*ProtoFile, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	goFile := &ProtoFile{}
 	scanner := bufio.NewScanner(file)
