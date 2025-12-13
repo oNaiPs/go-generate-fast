@@ -29,6 +29,9 @@
           ];
 
           shellHook = ''
+            # Add Go bin directory to PATH for installed tools
+            export PATH="$HOME/go/bin:$PATH"
+
             echo "go-generate-fast development environment"
             echo "Go version: $(go version)"
             echo ""
