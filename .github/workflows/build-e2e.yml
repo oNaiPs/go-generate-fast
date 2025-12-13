@@ -14,14 +14,13 @@ jobs:
     - name: Setup Nix cache
       uses: DeterminateSystems/magic-nix-cache-action@main
 
-    - name: Install go dependencies
-      run: nix develop --command make install-deps
-
-    - name: Build
-      run: nix develop --command make build
-
-    - name: Test e2e
-      run: nix develop --command make e2e
+    - name: Install dependencies, build, and test
+      run: |
+        nix develop --command bash -c '
+          make install-deps
+          make build
+          make e2e
+        '
 
     - name: Upload build
       uses: actions/upload-artifact@v4

@@ -14,8 +14,9 @@ jobs:
     - name: Setup Nix cache
       uses: DeterminateSystems/magic-nix-cache-action@main
 
-    - name: Install go dependencies
-      run: nix develop --command make install-deps
-
-    - name: Test
-      run: nix develop --command make test
+    - name: Install dependencies and test
+      run: |
+        nix develop --command bash -c '
+          make install-deps
+          make test
+        '
