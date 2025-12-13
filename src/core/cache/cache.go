@@ -177,7 +177,7 @@ func Restore(result VerifyResult) error {
 
 		// skip if modification time is the same
 		dstFileStat, err := os.Stat(dstFile.Path)
-		if err == nil && dstFileStat.ModTime() == dstFile.ModTime {
+		if err == nil && dstFileStat.ModTime().Equal(dstFile.ModTime) {
 			zap.S().Debug("Skipping copy of file with same modtime: ", dstFile.Path)
 			continue
 		}

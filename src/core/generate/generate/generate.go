@@ -108,13 +108,13 @@ type Generator struct {
 
 // run runs the generators in the current file.
 func (g *Generator) run() (ok bool) {
-	// Processing below here calls g.errorf on failure, which does panic(stop).
+	// Processing below here calls g.errorf on failure, which does panic(errStop).
 	// If we encounter an error, we abort the package.
 	defer func() {
 		e := recover()
 		if e != nil {
 			ok = false
-			if e != stop {
+			if e != errStop {
 				panic(e)
 			}
 			base.SetExitStatus(1)
@@ -347,6 +347,7 @@ func isGoGenerateExtraOutput(buf []byte) bool {
 // single go:generate command.
 func (g *Generator) setEnv() {
 	env := []string{
+		//nolint:staticcheck // SA1019: runtime.GOROOT still works for this use case
 		"GOROOT=" + runtime.GOROOT(),
 		"GOARCH=" + runtime.GOARCH,
 		"GOOS=" + runtime.GOOS,
@@ -427,14 +428,14 @@ Words:
 	return words
 }
 
-var stop = fmt.Errorf("error in generation")
+var errStop = fmt.Errorf("error in generation")
 
 // errorf logs an error message prefixed with the file and line number.
 // It then exits the program (with exit status 1) because generation stops
 // at the first error.
 func (g *Generator) errorf(format string, args ...any) {
 	zap.S().Errorf("%s:%d: %s\n", g.path, g.lineNum, fmt.Sprintf(format, args...))
-	panic(stop)
+	panic(errStop)
 }
 
 // expandVar expands the $XXX invocation in word. It is called

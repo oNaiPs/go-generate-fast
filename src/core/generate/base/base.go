@@ -101,6 +101,7 @@ func AppendPWD(base []string, dir string) []string {
 // AppendPATH returns the result of appending PATH=$GOROOT/bin:$PATH
 // (or the platform equivalent) to the environment base.
 func AppendPATH(base []string) []string {
+	//nolint:staticcheck // SA1019: runtime.GOROOT still works for this use case
 	GOROOTbin := filepath.Join(runtime.GOROOT(), "bin")
 
 	pathVar := "PATH"

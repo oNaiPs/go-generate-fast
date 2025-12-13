@@ -89,7 +89,7 @@ func (p *EscPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugins.
 			} else if includeRegexp == nil || includeRegexp.MatchString(fname) {
 				escFiles = append(escFiles, fpath)
 			}
-			f.Close()
+			_ = f.Close()
 		}
 	}
 

@@ -27,6 +27,7 @@ func FindExecutablePath(executable string) (string, error) {
 	if executable != "" && !strings.Contains(executable, string(os.PathSeparator)) {
 		// Prefer to resolve the binary from GOROOT/bin, and for consistency
 		// prefer to resolve any other commands there too.
+		//nolint:staticcheck // SA1019: runtime.GOROOT still works for this use case
 		gorootBinPath, err := exec.LookPath(filepath.Join(runtime.GOROOT(), "bin", executable))
 		if err == nil {
 			return gorootBinPath, nil

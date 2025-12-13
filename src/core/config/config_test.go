@@ -17,11 +17,11 @@ func TestConfigGet(t *testing.T) {
 	expectedReadOnly := false
 	expectedReCache := true
 
-	os.Setenv("GO_GENERATE_FAST_DIR", expectedConfigDir)
-	os.Setenv("GO_GENERATE_FAST_CACHE_DIR", expectedCacheDir)
-	os.Setenv("GO_GENERATE_FAST_DISABLE", strconv.FormatBool(expectedDisable))
-	os.Setenv("GO_GENERATE_FAST_READ_ONLY", strconv.FormatBool(expectedReadOnly))
-	os.Setenv("GO_GENERATE_FAST_RECACHE", strconv.FormatBool(expectedReCache))
+	t.Setenv("GO_GENERATE_FAST_DIR", expectedConfigDir)
+	t.Setenv("GO_GENERATE_FAST_CACHE_DIR", expectedCacheDir)
+	t.Setenv("GO_GENERATE_FAST_DISABLE", strconv.FormatBool(expectedDisable))
+	t.Setenv("GO_GENERATE_FAST_READ_ONLY", strconv.FormatBool(expectedReadOnly))
+	t.Setenv("GO_GENERATE_FAST_RECACHE", strconv.FormatBool(expectedReCache))
 
 	Init()
 

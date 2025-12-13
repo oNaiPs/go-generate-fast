@@ -23,7 +23,7 @@ func HashFile(filepath string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	h, err := blake2b.New256(nil)
 	if err != nil {
