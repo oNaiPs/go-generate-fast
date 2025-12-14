@@ -4,25 +4,12 @@ set -e
 
 cd "$(dirname "$0")"
 
-GENERATED_HASHES_FILE="generated_hashes.txt"
-GO_GENERATE_ARGS="./..."
+# Source shared functions
+source ./functions.sh
 
 compare_hashes() {
   computed_hashes_file=$(mktemp)
-  files=$(git ls-files . -o --ignored --exclude-standard)
-  for file in ${files}; do
-    hash=$(openssl dgst -r -md5 "${file}")
-    # Detect stat version (GNU vs BSD)
-    if stat --version &>/dev/null; then
-      # GNU stat (Linux or from coreutils)
-      size=$(stat -c "%s" "${file}")
-    else
-      # BSD stat (macOS)
-      size=$(stat -f "%z" "${file}")
-    fi
-
-    echo "${size} ${hash}" >> "${computed_hashes_file}"
-  done
+  compute_hashes "${computed_hashes_file}"
 
   if ! diff -ru "${GENERATED_HASHES_FILE}" "${computed_hashes_file}"; then
     echo "Generated files are different. E2e failed."
@@ -31,7 +18,7 @@ compare_hashes() {
 }
 
 # Use same modtimes for files
-find . -type f -exec touch -m -t 202212311330 {} \;
+set_consistent_modtimes
 
 echo "- Running original go generate..."
 git clean -dfx . > /dev/null 2>&1
