@@ -64,7 +64,7 @@ following tools:
 - [genny](https://github.com/cheekybits/genny): Elegant generics for Go.
 - [controller-gen](https://book.kubebuilder.io/reference/controller-gen) Generates utility code and Kubernetes YAML.
 
-Above commands can be called in binary form, or with go run. E.g.:
+Above commands can be called in binary form, with go run, or with go tool. E.g.:
 
 ```go
 //go:generate stringer
@@ -72,6 +72,10 @@ Above commands can be called in binary form, or with go run. E.g.:
 OR
 
 //go:generate go run golang.org/x/tools/cmd/stringer[@latest]
+
+OR
+
+//go:generate go tool stringer
 ```
 
 ### Custom Input/Output Files

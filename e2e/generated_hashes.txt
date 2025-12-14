@@ -20,4 +20,5 @@
 4306 cfb464f819a37459f097f6d975aa800d *protobuf/testdata/person/person.pb.go
 584 c871a3511ac359851e893777e7659c97 *stringer/a_string.go
 591 1623bb5928f9c646fa4bf3fad486d950 *stringer/c_string.go
+584 a806f11202fecc0d0d88562a6ab5c188 *stringer/d_string.go
 597 5ceb87db60a3246b39dc11acb8c10e57 *stringer/stringer_out.go
