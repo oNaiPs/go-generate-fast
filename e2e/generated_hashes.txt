@@ -15,6 +15,7 @@
 1228 3f40f63faa737614492c989bdc7a0553 *mockgen/a.mock.go
 1277 35e80177c05c4a4744a33d5dcec5d642 *mockgen/b.mock.go
 1228 d94649872385cee39161cfd1586e9f7c *mockgen/c.mock.go
+1228 21ef9ff07b4780d6a2e3c01ac8a59b9e *mockgen/d.mock.go
 2647 a180d391bef1807af3b457dddd0885a3 *moq/a_moq_test.go
 3647 ae1c923173b85f33a222da657407a7c3 *protobuf/testdata/example/gender.pb.go
 4306 cfb464f819a37459f097f6d975aa800d *protobuf/testdata/person/person.pb.go
