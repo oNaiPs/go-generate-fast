@@ -15,6 +15,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
+	"strconv"
 	"strings"
 	"time"
 
@@ -158,6 +160,8 @@ func scanDirectives(absFile string, src []byte, pkg string) ([]directiveInfo, er
 	var extraOutputPatterns []string
 	lineNum := 0
 
+	envMap := buildEnvMap(absFile, pkg)
+
 	for {
 		lineNum++
 		buf, err := input.ReadSlice('\n')
@@ -251,15 +255,19 @@ func scanDirectives(absFile string, src []byte, pkg string) ([]directiveInfo, er
 			continue
 		}
 
+		// Expand environment variables in words for plugin matching
+		envMap["GOLINE"] = strconv.Itoa(lineNum)
+		expandedWords := expandWords(words, envMap)
+
 		opts := plugins.GenerateOpts{
 			Path:                absFile,
-			Words:               words,
+			Words:               expandedWords,
 			ExtraInputPatterns:  append([]string{}, extraInputPatterns...),
 			ExtraOutputPatterns: append([]string{}, extraOutputPatterns...),
 		}
 
 		// Handle env variable prefix (e.g., "env VAR=value command args...")
-		actualWords := skipEnvPrefix(words)
+		actualWords := skipEnvPrefix(expandedWords)
 
 		executablePath, _ := fs.FindExecutablePath(actualWords[0])
 		if executablePath != "" {
@@ -336,6 +344,30 @@ func skipEnvPrefix(words []string) []string {
 
 	// If we only have env variables with no command, return as-is
 	return words
+}
+
+func buildEnvMap(absFile string, pkg string) map[string]string {
+	return map[string]string{
+		"GOARCH":    runtime.GOARCH,
+		"GOOS":      runtime.GOOS,
+		"GOFILE":    filepath.Base(absFile),
+		"GOPACKAGE": pkg,
+		"DOLLAR":    "$",
+		"GOLINE":    "0",
+	}
+}
+
+func expandWords(words []string, envMap map[string]string) []string {
+	expanded := make([]string, len(words))
+	for i, word := range words {
+		expanded[i] = os.Expand(word, func(key string) string {
+			if val, ok := envMap[key]; ok {
+				return val
+			}
+			return os.Getenv(key)
+		})
+	}
+	return expanded
 }
 
 func checkDirectiveCache(d *directiveInfo) {
