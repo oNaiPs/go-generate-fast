@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 	"plugin"
+	"strings"
 	"testing"
 	"time"
 
@@ -50,8 +51,7 @@ func TestNoCacheVerify(t *testing.T) {
 	testPlugin := TestPlugin{t: t}
 	plugins.RegisterPlugin(&testPlugin)
 
-	err := os.Chdir(t.TempDir())
-	assert.NoError(t, err)
+	t.Chdir(t.TempDir())
 	result, err := Verify(plugins.GenerateOpts{
 		ExecutableName: "test",
 		Path:           path.Join(t.TempDir(), "test.go"),
@@ -68,8 +68,7 @@ func TestCacheVerify(t *testing.T) {
 
 	// TODO do real cache verifications here
 
-	err := os.Chdir(t.TempDir())
-	assert.NoError(t, err)
+	t.Chdir(t.TempDir())
 	result, err := Verify(plugins.GenerateOpts{
 		ExecutableName: "test",
 		Path:           path.Join(t.TempDir(), "test.go"),
@@ -167,28 +166,56 @@ func TestRestore(t *testing.T) {
 	assert.ErrorContains(t, err, "file hash is different, corruption")
 }
 
-func TestGetCacheHitDir(t *testing.T) {
+func TestCalculateCacheDirectoryFromInputData(t *testing.T) {
+	// Create stable test files with fixed content
+	tmpDir := t.TempDir()
+	inputFile := path.Join(tmpDir, "input.txt")
+	err := os.WriteFile(inputFile, []byte("test content"), 0644)
+	assert.NoError(t, err)
 
-	// TODO not working because temp folder is used in hash and keeps changing
+	opts := plugins.GenerateOpts{
+		Words:          []string{"mockgen", "-source=input.go"},
+		ExecutableName: "mockgen",
+		Path:           path.Join(tmpDir, "test.go"),
+	}
 
-	// execFile := util_test.WriteTempFile(t,"bin")
-	// //os.LookPath needs file to be executable
-	// err = os.Chmod(execFile.Name(), 0700)
-	// if err != nil {
-	// 	t.Fatalf("Failed to chmod file: %s", err)
-	// }
+	ioFiles := plugins.InputOutputFiles{
+		InputFiles:  []string{inputFile},
+		OutputFiles: []string{"output.go"},
+	}
 
-	// tmpFile := util_test.WriteTempFile(t,"test string")
-	// dir, err := calculateCacheDirectoryFromInputData(plugins.GenerateOpts{
-	// 	Words: []string{execFile.Name()},
-	// 	Dir:   "",
-	// }, plugins.InputOutputFiles{
-	// 	InputFiles:  []string{tmpFile.Name()},
-	// 	OutputFiles: []string{"file2"},
-	// })
+	// Test 1: Same inputs should produce same cache directory
+	dir1, err := calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, dir1)
 
-	// assert.NoError(t, err)
-	// assert.Equal(t, dir, config.Get().CacheDir+"/9/5a/94e7bf23896c36ca7237fb6d064fb11172e121acb9eeb96e506c82bf9a06f")
+	dir2, err := calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.NoError(t, err)
+	assert.Equal(t, dir1, dir2, "Same inputs should produce same cache directory")
+
+	// Test 2: Cache directory should have expected structure (cachedir/a/bc/defg...)
+	assert.Contains(t, dir1, config.Get().CacheDir)
+	// Should have format: cachedir/{1char}/{2char}/{rest}
+	relPath := dir1[len(config.Get().CacheDir)+1:]
+	parts := strings.Split(relPath, string(os.PathSeparator))
+	assert.Len(t, parts, 3, "Cache directory should have 3-level structure")
+	assert.Len(t, parts[0], 1, "First level should be 1 character")
+	assert.Len(t, parts[1], 2, "Second level should be 2 characters")
+	assert.Greater(t, len(parts[2]), 0, "Third level should have remaining hash")
+
+	// Test 3: Different input content should produce different cache directory
+	err = os.WriteFile(inputFile, []byte("different content"), 0644)
+	assert.NoError(t, err)
+
+	dir3, err := calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.NoError(t, err)
+	assert.NotEqual(t, dir1, dir3, "Different input content should produce different cache directory")
+
+	// Test 4: Different command should produce different cache directory
+	opts.Words = []string{"mockgen", "-source=other.go"}
+	dir4, err := calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.NoError(t, err)
+	assert.NotEqual(t, dir3, dir4, "Different command should produce different cache directory")
 }
 
 func TestExecutableFileInfo(t *testing.T) {

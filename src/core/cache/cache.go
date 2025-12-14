@@ -277,9 +277,9 @@ func resolveExecutablePath(executable string) (string, error) {
 	const goToolPrefix = "go tool "
 	if strings.HasPrefix(executable, goToolPrefix) {
 		tool := strings.TrimPrefix(executable, goToolPrefix)
-		out, err := exec.Command("go", "tool", "-n", tool).Output()
+		out, err := exec.Command("go", "tool", "-n", tool).CombinedOutput()
 		if err != nil {
-			return "", fmt.Errorf("cannot resolve %q via 'go tool -n': %w", executable, err)
+			return "", fmt.Errorf("cannot resolve %q via 'go tool -n': %w (output: %s)", executable, err, string(out))
 		}
 
 		return strings.TrimSpace(string(out)), nil

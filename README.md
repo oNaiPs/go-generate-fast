@@ -123,6 +123,11 @@ creation of a unique hash that combines inputs,outputs and other metadata. The
 underlying concept is similar to the C/C++ compiler cache
 [ccache](https://ccache.dev/).
 
+For execution, `go-generate-fast` uses the standard `go generate` command to
+ensure full compatibility with your installed Go version. The caching layer
+sits on top, intelligently determining when regeneration is needed based on
+input file changes.
+
 ## Contributing
 
 We highly appreciate community contributions! Please create an issue or submit a
