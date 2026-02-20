@@ -286,7 +286,16 @@ func resolveExecutablePath(executable string) (string, error) {
 	}
 
 	// Use the executable path as-is by default
-	return fs.FindExecutablePath(executable)
+	path, err := fs.FindExecutablePath(executable)
+	if err != nil {
+		out, toolErr := exec.Command("go", "tool", "-n", executable).CombinedOutput()
+		if toolErr == nil {
+			return strings.TrimSpace(string(out)), nil
+		}
+		return "", err
+	}
+
+	return path, nil
 }
 
 func getExecutableDetails(ExecutablePath string) (string, error) {
