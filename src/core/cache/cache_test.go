@@ -240,3 +240,34 @@ func TestExecutableFileInfoGoTool(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, info)
 }
+
+func TestResolveExecutablePath_GoToolFallback(t *testing.T) {
+	resolved, err := resolveExecutablePath("compile")
+	assert.NoError(t, err)
+	assert.NotEmpty(t, resolved)
+	assert.FileExists(t, resolved)
+
+	expected, err := resolveExecutablePath("go tool compile")
+	assert.NoError(t, err)
+	assert.Equal(t, expected, resolved, "bare tool name should resolve to same path as 'go tool' prefix")
+}
+
+func TestGetExecutableDetails_GoToolBareName(t *testing.T) {
+	info, err := getExecutableDetails("compile")
+	assert.NoError(t, err)
+	assert.NotEmpty(t, info)
+
+	infoWithPrefix, err := getExecutableDetails("go tool compile")
+	assert.NoError(t, err)
+	assert.Equal(t, infoWithPrefix, info, "bare tool name should produce same executable details as 'go tool' prefix")
+}
+
+func TestResolveExecutablePath_WithArgsFails(t *testing.T) {
+	_, err := resolveExecutablePath("compile -p main")
+	assert.Error(t, err, "should not resolve tool name containing arguments")
+}
+
+func TestResolveExecutablePath_NonExistent(t *testing.T) {
+	_, err := resolveExecutablePath("nonexistent-tool-xyz")
+	assert.Error(t, err)
+}
