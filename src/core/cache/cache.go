@@ -242,7 +242,11 @@ func calculateCacheDirectoryFromInputData(opts plugins.GenerateOpts, ioFiles plu
 	}
 
 	if opts.GoPackage == "" {
-		execInfo, err := getExecutableDetails(opts.ExecutableName)
+		execName := opts.ExecutableName
+		if opts.IsGoTool {
+			execName = "go tool " + execName
+		}
+		execInfo, err := getExecutableDetails(execName)
 		if err != nil {
 			return "", fmt.Errorf("cannot get path for executable '%s': %s", opts.ExecutableName, err)
 		}
@@ -273,29 +277,17 @@ func calculateCacheDirectoryFromInputData(opts plugins.GenerateOpts, ioFiles plu
 }
 
 func resolveExecutablePath(executable string) (string, error) {
-	// Support `go tool <exe>` by resolving the real tool path via `go tool -n`
-	const goToolPrefix = "go tool "
-	if strings.HasPrefix(executable, goToolPrefix) {
-		tool := strings.TrimPrefix(executable, goToolPrefix)
+	if strings.HasPrefix(executable, "go tool ") {
+		tool := strings.TrimPrefix(executable, "go tool ")
 		out, err := exec.Command("go", "tool", "-n", tool).CombinedOutput()
 		if err != nil {
-			return "", fmt.Errorf("cannot resolve %q via 'go tool -n': %w (output: %s)", executable, err, string(out))
+			return "", fmt.Errorf("cannot resolve %q via 'go tool -n': %w (output: %s)", tool, err, string(out))
 		}
 
 		return strings.TrimSpace(string(out)), nil
 	}
 
-	// Use the executable path as-is by default
-	path, err := fs.FindExecutablePath(executable)
-	if err != nil {
-		out, toolErr := exec.Command("go", "tool", "-n", executable).CombinedOutput()
-		if toolErr == nil {
-			return strings.TrimSpace(string(out)), nil
-		}
-		return "", err
-	}
-
-	return path, nil
+	return fs.FindExecutablePath(executable)
 }
 
 func getExecutableDetails(ExecutablePath string) (string, error) {

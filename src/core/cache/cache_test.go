@@ -234,32 +234,23 @@ func TestExecutableFileInfo(t *testing.T) {
 	assert.ErrorContains(t, err, "executable file not found in $PATH")
 }
 
-
 func TestExecutableFileInfoGoTool(t *testing.T) {
 	info, err := getExecutableDetails("go tool compile")
 	assert.NoError(t, err)
 	assert.NotEmpty(t, info)
 }
 
-func TestResolveExecutablePath_GoToolFallback(t *testing.T) {
-	resolved, err := resolveExecutablePath("compile")
+func TestResolveExecutablePath_GoToolPrefix(t *testing.T) {
+	resolved, err := resolveExecutablePath("go tool compile")
 	assert.NoError(t, err)
 	assert.NotEmpty(t, resolved)
 	assert.FileExists(t, resolved)
-
-	expected, err := resolveExecutablePath("go tool compile")
-	assert.NoError(t, err)
-	assert.Equal(t, expected, resolved, "bare tool name should resolve to same path as 'go tool' prefix")
 }
 
-func TestGetExecutableDetails_GoToolBareName(t *testing.T) {
-	info, err := getExecutableDetails("compile")
+func TestGetExecutableDetails_GoToolPrefix(t *testing.T) {
+	info, err := getExecutableDetails("go tool compile")
 	assert.NoError(t, err)
 	assert.NotEmpty(t, info)
-
-	infoWithPrefix, err := getExecutableDetails("go tool compile")
-	assert.NoError(t, err)
-	assert.Equal(t, infoWithPrefix, info, "bare tool name should produce same executable details as 'go tool' prefix")
 }
 
 func TestResolveExecutablePath_WithArgsFails(t *testing.T) {

@@ -24,6 +24,7 @@ type GenerateOpts struct {
 	GoPackage string
 	// when this command is a "go run [pkg]@version" command, the version specified on it (e.g. 1.2.3, latest). Empty string when not specified.
 	GoPackageVersion string
+	IsGoTool bool
 	// arguments being passed to the target executable.
 	// examples:
 	// [exec] -a -b arg -> ["-a", "-b", "arg"]

@@ -289,6 +289,7 @@ func scanDirectives(absFile string, src []byte, pkg string) ([]directiveInfo, er
 			opts.SanitizedArgs = tempOpts.SanitizedArgs
 			opts.GoPackage = tempOpts.GoPackage
 			opts.GoPackageVersion = tempOpts.GoPackageVersion
+			opts.IsGoTool = tempOpts.IsGoTool
 		}
 
 		directives = append(directives, directiveInfo{
@@ -460,6 +461,7 @@ func parseGoToolCommand(opts *plugins.GenerateOpts) bool {
 	}
 	opts.ExecutableName = filepath.Base(opts.Words[2])
 	opts.SanitizedArgs = opts.Words[3:]
+	opts.IsGoTool = true
 	return true
 }
 
