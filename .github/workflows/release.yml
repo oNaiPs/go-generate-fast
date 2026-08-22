@@ -16,10 +16,12 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --force --tags
-      - uses: goreleaser/goreleaser-action@v5
+      - uses: goreleaser/goreleaser-action@v7
         with:
           distribution: goreleaser
-          version: latest
+          # pin the major explicitly: 'latest' is not latest, it resolves to the
+          # action major's default line (v5 locked it to '~> v1').
+          version: '~> v2'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
