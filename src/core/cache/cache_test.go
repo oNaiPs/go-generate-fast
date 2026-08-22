@@ -234,9 +234,55 @@ func TestExecutableFileInfo(t *testing.T) {
 	assert.ErrorContains(t, err, "executable file not found in $PATH")
 }
 
-
 func TestExecutableFileInfoGoTool(t *testing.T) {
 	info, err := getExecutableDetails("go tool compile")
 	assert.NoError(t, err)
 	assert.NotEmpty(t, info)
+}
+
+func TestResolveExecutablePath_GoToolPrefix(t *testing.T) {
+	resolved, err := resolveExecutablePath("go tool compile")
+	assert.NoError(t, err)
+	assert.NotEmpty(t, resolved)
+	assert.FileExists(t, resolved)
+}
+
+func TestResolveExecutablePath_GoToolWithArgsFails(t *testing.T) {
+	// the tool name must be passed on its own: `go tool -n` does not accept arguments.
+	_, err := resolveExecutablePath("go tool compile -p main")
+	assert.ErrorContains(t, err, "go tool -n")
+}
+
+func TestResolveExecutablePath_GoToolNonExistent(t *testing.T) {
+	_, err := resolveExecutablePath("go tool nonexistent-tool-xyz")
+	assert.ErrorContains(t, err, "go tool -n")
+}
+
+func TestCalculateCacheDirectoryFromInputDataGoTool(t *testing.T) {
+	tmpDir := t.TempDir()
+	inputFile := path.Join(tmpDir, "input.txt")
+	err := os.WriteFile(inputFile, []byte("test content"), 0644)
+	assert.NoError(t, err)
+
+	ioFiles := plugins.InputOutputFiles{
+		InputFiles:  []string{inputFile},
+		OutputFiles: []string{"output.go"},
+	}
+
+	opts := plugins.GenerateOpts{
+		Words:          []string{"go", "tool", "compile"},
+		ExecutableName: "compile",
+		Path:           path.Join(tmpDir, "test.go"),
+		IsGoTool:       true,
+	}
+
+	// a go tool is not on $PATH, so it can only be resolved via `go tool -n`.
+	goToolDir, err := calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, goToolDir)
+
+	// without the flag, the same name is looked up on $PATH, where it does not exist.
+	opts.IsGoTool = false
+	_, err = calculateCacheDirectoryFromInputData(opts, ioFiles)
+	assert.ErrorContains(t, err, "executable file not found in $PATH")
 }
