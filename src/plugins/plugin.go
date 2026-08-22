@@ -24,6 +24,8 @@ type GenerateOpts struct {
 	GoPackage string
 	// when this command is a "go run [pkg]@version" command, the version specified on it (e.g. 1.2.3, latest). Empty string when not specified.
 	GoPackageVersion string
+	// true when this command is a "go tool [name]" command. The tool binary is not
+	// on $PATH, so it must be resolved via `go tool -n [name]`.
 	IsGoTool bool
 	// arguments being passed to the target executable.
 	// examples:
