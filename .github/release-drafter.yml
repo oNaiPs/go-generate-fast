@@ -18,23 +18,30 @@ version-resolver:
   major:
     labels:
       - 'major'
+      - 'breaking'
   minor:
     labels:
       - 'minor'
+      - 'feature'
+      - 'enhancement'
   patch:
     labels:
       - 'patch'
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+      - 'chore'
   default: patch
 autolabeler:
   - label: 'chore'
     title:
-      - '/chore/i'
+      - '/^chore(\(.+\))?!?:/i'
   - label: 'bug'
     title:
-      - '/fix/i'
+      - '/^fix(\(.+\))?!?:/i'
   - label: 'enhancement'
     title:
-      - '/feat/i'
+      - '/^feat(\(.+\))?!?:/i'
 template: |
   ## Changes
 
