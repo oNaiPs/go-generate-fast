@@ -26,9 +26,10 @@ func (p *ProtocPlugin) Matches(opts plugins.GenerateOpts) bool {
 }
 
 type ProtocParsedFlags struct {
-	Include []string `short:"I" long:"proto_path"`
-	GoOut   string   `long:"go_out"`
-	GoOpt   []string `long:"go_opt"`
+	Include  []string `short:"I" long:"proto_path"`
+	GoOut    string   `long:"go_out"`
+	GoOpt    []string `long:"go_opt"`
+	GoPrefix string   `long:"go_prefix"`
 }
 
 func (p *ProtocPlugin) ComputeInputOutputFiles(opts plugins.GenerateOpts) *plugins.InputOutputFiles {
